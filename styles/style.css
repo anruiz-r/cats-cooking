@@ -1,0 +1,80 @@
+
+body {
+    margin: 0;
+    background-color: lightgray;
+  }
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 50px;
+  }
+
+#start-screen {
+    background-color: blue;
+}
+
+#game-screen {
+    background-color: blueviolet;
+    width:800px;
+    height:400px;
+  
+    position: relative;
+    overflow: hidden;
+}
+
+#gameover-screen {
+    background-color: yellowgreen;
+}
+
+#start-button {
+    background-color: orange;
+    color: white;
+    padding: 10px;
+    font-size: 20px;
+    margin: 30px;
+    border-radius: 5px; 
+  }
+
+  #orders-box {
+    background-color: antiquewhite;
+    width: 700px;
+    height: 60px;
+    border-radius: 10px;
+    margin: 0 50px 0 50px;
+  }
+
+  #game-box {
+    background-color: aqua;
+    width: 500px;
+    height: 400px;
+    margin: 20px;
+  }
+
+  #points-marker {
+    text-align: center;
+    color: antiquewhite;
+    background-color: orange;
+    width: 60px;
+    height: 60px;
+    border-radius: 100px;
+  }
+
+  #hand-box {
+    background-color: antiquewhite;
+    width: 500px;
+    height: 60px;
+    border-radius: 10px;
+    margin: 0 50px 0 50px;
+  }
+
+  #time-marker {
+    text-align: center;
+    color: antiquewhite;
+    background-color: darkgray;
+    width: 60px;
+    height: 60px;
+    border-radius: 100px;
+  }
