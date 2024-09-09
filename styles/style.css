@@ -1,80 +1,93 @@
+/* #D1E9F6 white 
+ #F6EACB yellow
+ #F1D3CE peach 
+ #EECAD5 pink 
+  #3c6ca8 blue violet*/
 
 body {
-    margin: 0;
-    background-color: lightgray;
-  }
+  margin: 0;
+  background-color: lightgray;
+}
 
 .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 50px;
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 50px;
+}
 
 #start-screen {
-    background-color: blue;
+  background-color: #eecad5;
+}
+
+h1 {
+  font-size: 100px;
+  color: #3c6ca8;
+  margin: 50px 0 0 0;
+  font-family: "lobster";
 }
 
 #game-screen {
-    background-color: blueviolet;
-    width:800px;
-    height:400px;
-  
-    position: relative;
-    overflow: hidden;
+  width: 1000px;
+  height: 700px;
 }
 
+#game-screen,
 #gameover-screen {
-    background-color: yellowgreen;
+  background-color: #eecad5;
+  display: flex; /* lo dejaremos en none*/
 }
 
-#start-button {
-    background-color: orange;
-    color: white;
-    padding: 10px;
-    font-size: 20px;
-    margin: 30px;
-    border-radius: 5px; 
-  }
+#game-box {
+  background-color: #f1d3ce;
+  width: 900px;
+  height: 600px;
+  margin: 20px;
 
-  #orders-box {
-    background-color: antiquewhite;
-    width: 700px;
-    height: 60px;
-    border-radius: 10px;
-    margin: 0 50px 0 50px;
-  }
+  position: relative;
+  overflow: hidden;
+}
 
-  #game-box {
-    background-color: aqua;
-    width: 500px;
-    height: 400px;
-    margin: 20px;
-  }
+.button {
+  background-color: #c75b7a;
+  color: white;
+  padding: 10px;
+  font-size: 20px;
+  margin: 20px;
+  border-radius: 5px;
+}
 
-  #points-marker {
-    text-align: center;
-    color: antiquewhite;
-    background-color: orange;
-    width: 60px;
-    height: 60px;
-    border-radius: 100px;
-  }
+#orders-box {
+  background-color: #d1e9f6;
+  width: 700px;
+  height: 60px;
+  border-radius: 10px;
+  margin: 0 50px 0 50px;
+}
 
-  #hand-box {
-    background-color: antiquewhite;
-    width: 500px;
-    height: 60px;
-    border-radius: 10px;
-    margin: 0 50px 0 50px;
-  }
+#points-marker {
+  text-align: center;
+  color: antiquewhite;
+  background-color: orange;
+  width: 60px;
+  height: 60px;
+  border-radius: 100px;
+}
 
-  #time-marker {
-    text-align: center;
-    color: antiquewhite;
-    background-color: darkgray;
-    width: 60px;
-    height: 60px;
-    border-radius: 100px;
-  }
+#hand-box {
+  background-color: #d1e9f6;
+  width: 500px;
+  height: 60px;
+  border-radius: 10px;
+  margin: 0 50px 0 50px;
+}
+
+#time-marker {
+  text-align: center;
+  color: antiquewhite;
+  background-color: darkgray;
+  width: 60px;
+  height: 60px;
+  border-radius: 100px;
+}
