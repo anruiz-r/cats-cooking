@@ -6,7 +6,7 @@
 
 body {
   margin: 0;
-  background-color: lightgray;
+  background-color: #EECAD5;
 }
 
 .container {
@@ -36,13 +36,18 @@ h1 {
 #game-screen,
 #gameover-screen {
   background-color: #eecad5;
-  display: flex; /* lo dejaremos en none*/
+  display: none; /* lo dejaremos en none*/
 }
 
 #game-box {
-  background-color: #f1d3ce;
+  background-color: #EECAD5;
+  background-image: url("../images/floor-textures.jpg");
+  background-repeat: repeat;
+  background-size: contain;
+  border: 2px solid #525151;
+  box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.46);
   width: 900px;
-  height: 600px;
+  height: 900px;
   margin: 20px;
 
   position: relative;
@@ -57,37 +62,72 @@ h1 {
   margin: 20px;
   border-radius: 5px;
 }
-
+ .stats {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content:space-between;
+  align-items: center;
+  gap: 200px;
+ }
 #orders-box {
   background-color: #d1e9f6;
   width: 700px;
-  height: 60px;
+  height: 150px;
   border-radius: 10px;
+  border: 1px groove rgba(50,51,79,0.54);
+  box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.46);
   margin: 0 50px 0 50px;
 }
 
 #points-marker {
   text-align: center;
   color: antiquewhite;
-  background-color: orange;
-  width: 60px;
-  height: 60px;
+  /*background-color: orange;*/
+  width: 150px;
+  height: 150px;
   border-radius: 100px;
+  position: relative;
+}
+
+#points-marker img {
+  width: 100%;
+  height: 100%;
+  
+}
+#points-marker p {
+  color: orange;
+  font-size: 5rem;
+  position: absolute;
+  margin: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 #hand-box {
   background-color: #d1e9f6;
-  width: 500px;
-  height: 60px;
+  width: 200px;
+  height:150px;
   border-radius: 10px;
-  margin: 0 50px 0 50px;
+  box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.46);
 }
 
 #time-marker {
   text-align: center;
   color: antiquewhite;
   background-color: darkgray;
-  width: 60px;
-  height: 60px;
+  width:150px;
+  height: 150px;
   border-radius: 100px;
+  position: relative;
+}
+
+#time-marker p {
+color: whitesmoke;
+  font-size: 3rem;
+  position: absolute;
+  margin: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

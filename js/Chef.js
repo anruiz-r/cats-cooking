@@ -18,7 +18,7 @@ class Chef {
     this.node.style.top = `${this.y}px`;
   }
 
-  move() {
+  move(gameBoxNode) {
     //update position of player
     this.x += this.directionX;
     this.y += this.directionY;
@@ -32,8 +32,8 @@ class Chef {
       this.y = 50;
     }
 
-    if (this.x > this.gameBoxNode.offsetWidth - this.w - 50) {
-      this.x = this.gameBoxNode.offsetWidth - this.w - 50;
+    if (this.x > (this.gameBoxNode.offsetWidth - this.w - 50)) {
+      this.x = (this.gameBoxNode.offsetWidth - this.w - 50);
     }
 
     if (this.y > this.gameBoxNode.offsetHeight - this.h - 50) {
