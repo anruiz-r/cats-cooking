@@ -8,10 +8,12 @@ const gameoverScreenNode = document.getElementById("gameover-screen");
 // game box
 const gameBoxNode = document.querySelector("#game-box");
 const ordersBoxNode = document.querySelector("#orders-box");
+const timeNode = document.getElementById("time")
 
 // botones
 const startButtonNode = document.querySelector("#start-button");
 const resetButtonNode = document.querySelector("#reset-button");
+
 
 //* VARIABLES GLOBALES DEL JUEGO
 let chefObj = null;
@@ -28,11 +30,39 @@ let ordersFrecuency = 2000;
 let handArr = []; //array de objetos
 let ordersArr = []; // array de objetos
 
-console.log(handArr);
+const duration = 5; //120 seconds
+let remainingTime = duration;
+let timer = null;
+
+const audio = document.querySelector("#soundtrack");
 
 //* FUNCIONES GLOBALES DEL JUEGO
+
+
+
+
+function startTime() {
+  timer = setInterval(() => {
+    remainingTime--;
+    formatTime();
+    if (remainingTime < 0) {
+      gameover();
+    }
+  }, 1000);
+}
+
+function formatTime() {
+  const minutes = Math.floor(remainingTime / 60).toString().padStart(2, "0");
+  const seconds = (remainingTime % 60).toString().padStart(2, "0");
+
+  timeNode.innerText = `${minutes}:${seconds}`;
+}
+
+
 function startGame() {
   console.log("comprobando si empieza el juego");
+  timeNode.innerText = duration;
+  formatTime();
   startScreenNode.style.display = "none";
   gameScreenNode.style.display = "flex";
 
@@ -52,7 +82,6 @@ function startGame() {
   console.log(saladObj);
 
   //INTERVALOS
-
   playInterval = setInterval(() => {
     //console.log("ejecuta intervalo de juego");
     gameLoop();
@@ -63,6 +92,12 @@ function startGame() {
       newOrder();
     }
   }, ordersFrecuency);
+
+ 
+  audio.play();
+  audio.loop = true;
+
+  startTime();
 }
 
 
@@ -116,6 +151,7 @@ function gameLoop() {
   chefObj.move(gameBoxNode);
   takeFood(chefObj.x, chefObj.y);
   deliverOrder(chefObj.x, chefObj.y);
+
 }
 
 //funcion nuevos pedidos
@@ -124,12 +160,18 @@ function gameLoop() {
 
 function gameover() {
   console.log("comprobando si acaba el juego");
-
-  //hay que limpiar intervals
-clearInterval(playInterval);
-clearInterval(ordersInterval);
   gameScreenNode.style.display = "none";
   gameoverScreenNode.style.display = "flex";
+
+  //hay que limpiar intervals
+  clearInterval(playInterval);
+  clearInterval(ordersInterval);
+  clearInterval(timer);
+
+  remainingTime = duration;
+  formatTime();
+
+  audio.pause();
 }
 
 function resetGame() {
@@ -201,17 +243,17 @@ resetButtonNode.addEventListener("click", resetGame);
 //* START:
 
 //* PARTIDA:
-//clase personaje
-//Personaje (x, y, w, h)
+//clase personaje ✔
+//Personaje (x, y, w, h) ✔
 //Personaje tiene que poder coger cosas
 //Personaje tiene que poder soltar cosas
-//Inventario de cosas en la mano
-//clase alimentos x4:
-//clase pescado
-//clase pollo
-//clase leche
-//clase lechuga
-//propiedades alimentos ?
+//Inventario de cosas en la mano ✔
+//clase alimentos x4: ✔
+//clase pescado ✔
+//clase pollo ✔
+//clase leche ✔
+//clase lechuga ✔
+//propiedades alimentos ✔
 // Cajas de ingredientes
 // Pedidos (aparecen cada x segundos segun nivel)
 //*Entrega:
@@ -219,9 +261,9 @@ resetButtonNode.addEventListener("click", resetGame);
 //lechuga quita puntos
 //
 //Puntos
-//Timer
+//Timer ✔
 
-//* GAME OVER:
+//* GAME OVER:  ✔
 
 //* BONUS
 //Quitar puntos por pedidos incorrectos

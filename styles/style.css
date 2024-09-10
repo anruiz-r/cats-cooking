@@ -7,6 +7,10 @@
 body {
   margin: 0;
   background-color: #EECAD5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .container {
@@ -30,7 +34,7 @@ h1 {
 
 #game-screen {
   width: 1000px;
-  height: 700px;
+  height: 900px;
 }
 
 #game-screen,
@@ -46,8 +50,8 @@ h1 {
   background-size: contain;
   border: 2px solid #525151;
   box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.46);
-  width: 900px;
-  height: 900px;
+  width: 800px;
+  height: 600px;
   margin: 20px;
 
   position: relative;
@@ -72,7 +76,7 @@ h1 {
 #orders-box {
   background-color: #d1e9f6;
   width: 700px;
-  height: 150px;
+  height: 120px;
   border-radius: 10px;
   border: 1px groove rgba(50,51,79,0.54);
   box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.46);
@@ -83,8 +87,8 @@ h1 {
   text-align: center;
   color: antiquewhite;
   /*background-color: orange;*/
-  width: 150px;
-  height: 150px;
+  width: 140px;
+  height: 140px;
   border-radius: 100px;
   position: relative;
 }
@@ -107,7 +111,7 @@ h1 {
 #hand-box {
   background-color: #d1e9f6;
   width: 200px;
-  height:150px;
+  height:120px;
   border-radius: 10px;
   box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.46);
 }
@@ -116,8 +120,8 @@ h1 {
   text-align: center;
   color: antiquewhite;
   background-color: darkgray;
-  width:150px;
-  height: 150px;
+  width:140px;
+  height: 140px;
   border-radius: 100px;
   position: relative;
 }
@@ -130,4 +134,13 @@ color: whitesmoke;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.decoration-start {
+  display: flex;
+  justify-content: space-between;
+  gap: 500px;
+}
+.decoration-start img {
+ height: 200px;
 }
