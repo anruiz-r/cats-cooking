@@ -8,39 +8,57 @@ const gameoverScreenNode = document.getElementById("gameover-screen");
 // game box
 const gameBoxNode = document.querySelector("#game-box");
 const ordersBoxNode = document.querySelector("#orders-box");
-const timeNode = document.getElementById("time")
+const handBoxNode = document.querySelector("#hand-box");
+const timeNode = document.getElementById("time");
+const pointsNode = document.querySelector("#points-marker p");
+const audio = document.querySelector("#soundtrack");
 
 // botones
 const startButtonNode = document.querySelector("#start-button");
 const resetButtonNode = document.querySelector("#reset-button");
+const muteButtonNode = document.querySelector("#mute-button");
 
 
 //* VARIABLES GLOBALES DEL JUEGO
+
+//character and food objects
 let chefObj = null;
 let fishObj = null;
 let chickenObj = null;
 let milkObj = null;
 let saladObj = null;
 
+
+
+let fishOrder = new Food("fish", 10, "./images/fish.png");
+let chickenOrder = new Food("chicken", 5, "./images/chicken.png");
+let milkOrder = new Food("milk", -5, "./images/milk.png");
+let saladOrder = new Food("salad", -5, "./images/salad.png");
+
+//stats
 let score = 0;
-let playInterval = null;
-let ordersInterval = null;
-let ordersFrecuency = 2000;
-
-let handArr = []; //array de objetos
-let ordersArr = []; // array de objetos
-
-const duration = 5; //120 seconds
+const duration = 120; //120 seconds
 let remainingTime = duration;
 let timer = null;
 
-const audio = document.querySelector("#soundtrack");
+//objects functionality
+let ordersFrecuency = 2000;
+let handArr = null; 
+
+
+let menuArr = [fishOrder, chickenOrder, milkOrder, saladOrder]; 
+let ordersArr =[];
+
+//intervals
+let playInterval = null;
+let ordersInterval = null;
+
 
 //* FUNCIONES GLOBALES DEL JUEGO
 
+//NEW GAME
 
-
-
+//Timer
 function startTime() {
   timer = setInterval(() => {
     remainingTime--;
@@ -51,152 +69,115 @@ function startTime() {
   }, 1000);
 }
 
+
 function formatTime() {
+  //Show time in "minutes:seconds" format
   const minutes = Math.floor(remainingTime / 60).toString().padStart(2, "0");
   const seconds = (remainingTime % 60).toString().padStart(2, "0");
 
   timeNode.innerText = `${minutes}:${seconds}`;
 }
 
+function muteSoundtrack() {
+  if (audio.muted === false) {
+    audio.muted = true;
+  } else {
+    audio.muted = false;
+  }
+}
+
+function updatePoints() {
+  //Update points marker to match variable score
+  pointsNode.innerText = score;
+}
+
+function randomFoodPositionX() {
+  let foodWidth = Math.floor(Math.random() * 800);
+  return foodWidth;
+  
+}
+
+function randomFoodPositionY() {
+  let foodHeight = Math.floor(Math.random() * 600);
+  return foodHeight;
+}
 
 function startGame() {
-  console.log("comprobando si empieza el juego");
+  //Timer on
   timeNode.innerText = duration;
   formatTime();
+  startTime();
+
+  //Screen switch
   startScreenNode.style.display = "none";
   gameScreenNode.style.display = "flex";
 
-  chefObj = new Chef(gameBoxNode);
+  //character and food objects ready
+  chefObj = new Chef();
   console.log(chefObj);
 
-  fishObj = new Food("fish", 10, 300, "./images/fish.png");
+  
+  fishObj = new Ingredient("fish", 10,"./images/fish.png", randomFoodPositionX, randomFoodPositionY);
   console.log(fishObj);
 
-  chickenObj = new Food("chicken", 5, 370, "./images/chicken.png");
+  chickenObj = new Ingredient("chicken", 5, "./images/chicken.png", randomFoodPositionX, randomFoodPositionY);
   console.log(chickenObj);
 
-  milkObj = new Food("milk", -5, 440, "./images/milk.png");
+  milkObj = new Ingredient("milk", -5, "./images/milk.png", randomFoodPositionX, randomFoodPositionY);
+  console.log(milkObj);
+
+  saladObj = new Ingredient("salad", -5, "./images/salad.png", randomFoodPositionX, randomFoodPositionY);
   console.log(saladObj);
 
-  saladObj = new Food("salad", -5, 510, "./images/salad.png");
-  console.log(saladObj);
-
-  //INTERVALOS
+  //INTERVALS
   playInterval = setInterval(() => {
-    //console.log("ejecuta intervalo de juego");
     gameLoop();
-  }, Math.round(1000 / 60)); // 60 veces por segundo ¿ajustar?
+  }, Math.round(1000 / 60));
 
   ordersInterval = setInterval(() => {
-    if (ordersArr.length < 4) {
-      newOrder();
-    }
+    newOrder();
   }, ordersFrecuency);
 
- 
+  //Music on
   audio.play();
   audio.loop = true;
-
-  startTime();
+  takeFood();
 }
-
-
-
-
-// event listener para el teclado
-document.addEventListener("keyup", (event) => {
- 
-    const key = event.key;
-    const possibleKeystrokes = [
-      "ArrowLeft",
-      "ArrowUp",
-      "ArrowRight",
-      "ArrowDown",
-      "Space"
-    ];
-
-    // Check if the pressed key is in the possibleKeystrokes array
-    if (possibleKeystrokes.includes(key)) {
-      event.preventDefault();
-
-      // Update player's directionX and directionY based on the key pressed
-      switch (key) {
-        case "ArrowLeft":
-          chefObj.directionX = -1;
-          console.log("izquierda");
-          break;
-        case "ArrowUp":
-          chefObj.directionY = -1;
-          console.log("arriba");
-          break;
-        case "ArrowRight":
-          chefObj.directionX = 1;
-          console.log("derecha");
-          break;
-        case "ArrowDown":
-          chefObj.directionY = 1;
-          console.log("abajo");
-          break;
-      }
-    }
-  });
-
-
-
-
 
 
 function gameLoop() {
-  //que cosas necesitamos que se comprueben cada x segundos y cuantos segundos seran
-  chefObj.move(gameBoxNode);
-  takeFood(chefObj.x, chefObj.y);
-  deliverOrder(chefObj.x, chefObj.y);
+  //Checking 60 times per second
 
+  //deliverOrder(chefObj.x, chefObj.y);
+ 
+  updatePoints();
 }
 
-//funcion nuevos pedidos
-//funcion detectar si se entrego un pedido(es igual? sumar puntos)
-//funcion elimnar pedido entregado
+function takeFood() {
 
-function gameover() {
-  console.log("comprobando si acaba el juego");
-  gameScreenNode.style.display = "none";
-  gameoverScreenNode.style.display = "flex";
+  //cuando colisiona !!!! arreglar 
+    handBoxNode.innerHTML = "";
+    handArr = saladObj;
+    const handNode = document.createElement("img");
+    handNode.src = handArr.img;
+    handNode.style.width = `${handArr.w}px`;
+    handNode.style.height = `${handArr.h}px`;
+    handBoxNode.appendChild(handNode);
+    console.log("entra en funcion coger");
+  }
 
-  //hay que limpiar intervals
-  clearInterval(playInterval);
-  clearInterval(ordersInterval);
-  clearInterval(timer);
 
-  remainingTime = duration;
-  formatTime();
 
-  audio.pause();
-}
 
-function resetGame() {
-  console.log("comprobando si reinicia el juego");
-  gameoverScreenNode.style.display = "none";
-  startScreenNode.style.display = "flex";
-  gameBoxNode.innerHTML = "";
-  ordersBoxNode.innerHTML = "";
-  chefObj = null;
-  fishObj = null;
-  chickenObj = null;
-  milkObj = null;
-  saladObj = null;
-  score = 0;
-  ordersArr = [];
-  handArr = [];
-  // limpiar caja de juego
-  //reiniciar elementos de juego
-}
+//Game funcionalities 
 
-function takeFood(chefX, chefY) {
+/*function takeFood(chefX, chefY) {
   if (chefX === 300 && chefY === 50 && handArr.length < 1) {
     handArr.push(fishObj);
     console.log("array mano", handArr);
   }
+
+  
 }
 
 function deliverOrder(chefX, chefY) {
@@ -211,32 +192,113 @@ function deliverOrder(chefX, chefY) {
     }
   }
 }
-
-function newOrder() {
-  const randomOrder = Math.floor(Math.random() * 4);
-  let newOrderObj;
-
-  if (randomOrder === 0) {
-    newOrderObj = new Food("fish", 10, 300, "./images/fish.png");
-  } else if (randomOrder === 1) {
-    newOrderObj = new Food("chicken", 5, 370, "./images/chicken.png");
-  } else if (randomOrder === 2) {
-    newOrderObj = new Food("milk", -5, 440, "./images/milk.png");
-  } else if (randomOrder === 3) {
-    newOrderObj = new Food("salad", -5, 510, "./images/salad.png");
-  }
-  ordersArr.push(newOrderObj);
-}
-
 function orderDelivered() {
   ordersArr.shift();
   newOrder();
+}  
+*/
+
+
+
+
+function newOrder() {
+  if (ordersArr.length < 5) {
+    const randomOrderIndex = Math.floor(Math.random() * menuArr.length);
+    let newOrderObj = menuArr[randomOrderIndex];
+    ordersArr.push(newOrderObj);
+
+    const orderNode = document.createElement("img");
+    orderNode.src = newOrderObj.img;
+    orderNode.style.width = `${newOrderObj.w}px`;
+    orderNode.style.height = `${newOrderObj.h}px`;
+    ordersBoxNode.appendChild(orderNode);
+  }
 }
+
+
+
+
+
+  
+//
+
+
+
+// ENDS GAME
+
+function gameover() {
+  //screens switch
+  gameScreenNode.style.display = "none";
+  gameoverScreenNode.style.display = "flex";
+
+  //cleaning intervals
+  clearInterval(playInterval);
+  clearInterval(ordersInterval);
+  clearInterval(timer);
+
+  //time reset
+  remainingTime = duration;
+  formatTime();
+
+  //music stops
+  audio.pause();
+}
+
+
+function resetGame() {
+ //screens switch
+  gameoverScreenNode.style.display = "none";
+  startScreenNode.style.display = "flex";
+
+  //cleaning game-box
+  gameBoxNode.innerHTML = "";
+  ordersBoxNode.innerHTML = "";
+  //play elements reset
+  chefObj = null;
+  fishObj = null;
+  chickenObj = null;
+  milkObj = null;
+  saladObj = null;
+  score = 0;
+  ordersArr = [];
+  handArr = [];
+}
+
 
 //* EVENT LISTENERS
 
 startButtonNode.addEventListener("click", startGame);
 resetButtonNode.addEventListener("click", resetGame);
+muteButtonNode.addEventListener("click", muteSoundtrack);
+
+// event listener para el teclado
+document.addEventListener("keydown", (event) => {
+  console.log("tecla funcionando")
+  const key = event.key;
+
+  event.preventDefault();
+
+    // Update player's directionX and directionY based on the key pressed
+  switch (key) {
+      case "ArrowLeft":
+        chefObj.movesLeft();
+        break;
+      case "ArrowUp":
+        chefObj.movesUp();
+        break;
+      case "ArrowRight":
+        chefObj.movesRight();
+        break;
+      case "ArrowDown":
+        chefObj.movesDown();
+        break;
+      case "SpaceBar":
+        takeFood();
+        console.log("espacio");
+        break;
+    }
+  }
+);
 
 //* PLANNING *//
 
@@ -262,6 +324,10 @@ resetButtonNode.addEventListener("click", resetGame);
 //
 //Puntos
 //Timer ✔
+//funcion nuevos pedidos
+//funcion detectar si se entrego un pedido(es igual? sumar puntos)
+//funcion elimnar pedido entregado
+
 
 //* GAME OVER:  ✔
 
