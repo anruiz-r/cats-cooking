@@ -25,31 +25,33 @@ const muteButtonNode = document.querySelector("#mute-button");
 
 //character and food objects
 let chefObj = null;
-let fishObj = null;
-let chickenObj = null;
-let milkObj = null;
-let saladObj = null;
-
-
 
 let fishOrder = new Food("fish", 10, "./images/fish.png");
 let chickenOrder = new Food("chicken", 5, "./images/chicken.png");
 let milkOrder = new Food("milk", -5, "./images/milk.png");
 let saladOrder = new Food("salad", -5, "./images/salad.png");
 
+//ingredients
+let fishObj = null;
+let chickenObj = null;
+let milkObj = null;
+let saladObj = null;
+
+
+//objects functionality
+let ingredientsArr = [];
+let hand = null; 
+let menuArr = [fishOrder, chickenOrder, milkOrder, saladOrder]; 
+let ordersArr =[];
+let ordersFrecuency = 800;
+
+
+
 //stats
 let score = 0;
 const duration = 120; //120 seconds
 let remainingTime = duration;
 let timer = null;
-
-//objects functionality
-let ordersFrecuency = 2000;
-let handArr = null; 
-
-
-let menuArr = [fishOrder, chickenOrder, milkOrder, saladOrder]; 
-let ordersArr =[];
 
 //intervals
 let playInterval = null;
@@ -93,16 +95,6 @@ function updatePoints() {
   pointsNode.innerText = score;
 }
 
-/*function randomFoodPositionX() {
-  let foodWidth = Math.floor(Math.random() * 800);
-  return foodWidth;
-  
-}
-
-function randomFoodPositionY() {
-  let foodHeight = Math.floor(Math.random() * 600);
-  return foodHeight;
-}*/
 
 function startGame() {
   //Timer on
@@ -132,18 +124,24 @@ function startGame() {
   //Music on
   audio.play();
   audio.loop = true;
-  takeFood();
 }
 
 
 function gameLoop() {
   //Checking 60 times per second
- chefObj.moveLimits();
+  chefObj.moveLimits();
+  takeFood();
   updatePoints();
   musicSpeed();
 }
 
 function placeIngredients() {
+//cleaning game-box of ingredients and reseting ingredients array
+  ingredientsArr.forEach((eachIngredient) => {
+  gameBoxNode.removeChild(eachIngredient.node);
+  });
+  ingredientsArr = [];
+//placing new ingredients of every type
   fishObj = new Ingredient("fish", 10,"./images/fish.png");
   console.log(fishObj);
 
@@ -155,28 +153,48 @@ function placeIngredients() {
 
   saladObj = new Ingredient("salad", -5, "./images/salad.png");
   console.log(saladObj);
+
+  ingredientsArr.push(fishObj, chickenObj, milkObj, saladObj);
+
+  console.log("ingredientes", ingredientsArr);
   }
+
 
 function takeFood() {
+  
+  ingredientsArr.forEach((eachIngredient) => {
+    if (
+      chefObj.x < eachIngredient.x + eachIngredient.w &&
+      chefObj.x + chefObj.w > eachIngredient.x &&
+      chefObj.y < eachIngredient.y + eachIngredient.h &&
+      chefObj.y + chefObj.h > eachIngredient.y
+    ) {
+      console.log("ingredientsArr antes de coger algo", ingredientsArr)
+        handBoxNode.innerHTML = "";
+        hand = eachIngredient;
+        const handNode = document.createElement("img");
+        handNode.src = hand.img;
+        handNode.style.width = `${hand.w}px`;
+        handNode.style.height = `${hand.h}px`;
+        handBoxNode.appendChild(handNode);
 
-  //cuando colisiona !!!! arreglar 
-    handBoxNode.innerHTML = "";
-    handArr = saladObj;
-    const handNode = document.createElement("img");
-    handNode.src = handArr.img;
-    handNode.style.width = `${handArr.w}px`;
-    handNode.style.height = `${handArr.h}px`;
-    handBoxNode.appendChild(handNode);
+        ingredientsArr.splice((indexOf.eachIngredient),1);
+        gameBoxNode.removeChild(eachIngredient.node);
+        placeIngredients();
+        console.log("ingredientsArr despues de coger algo", ingredientsArr)
+      console.log("entra en funcion coger");
+    }
+  });
+}
 
-    placeIngredients();
-    console.log("entra en funcion coger");
-  }
+
+
 
   function deliverOrder() {
 
     if (chefObj.x === 4 ) {
-      const deliveredFood = handArr.pop();
-      console.log("array mano", handArr);
+      const deliveredFood = hand;
+      console.log("array mano", hand);
       if (deliveredFood.name === ordersArr[0].name) {
         score += deliveredFood.points;
         orderDelivered();
@@ -235,9 +253,6 @@ function newOrder() {
 }
 
 
-
-
-
   
 //
 
@@ -261,6 +276,7 @@ function gameover() {
 
   //music stops
   audio.pause();
+  audio.playbackRate = 1;
 }
 
 
@@ -280,7 +296,8 @@ function resetGame() {
   saladObj = null;
   score = 0;
   ordersArr = [];
-  handArr = [];
+  ingredientsArr = [];
+  hand = null;
 }
 
 
@@ -328,9 +345,9 @@ function musicSpeed() {
   } else if (remainingTime < 20) {
     audio.playbackRate = 1.5;
   } else if (remainingTime < 10) {
-    audio.playbackRate = 2;
+    audio.playbackRate = 2.3;
   } else if (remainingTime < 5) {
-    audio.playbackRate = 2.5;
+    audio.playbackRate = 2.8;
   }
 }
 
