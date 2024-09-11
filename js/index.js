@@ -14,6 +14,7 @@ const pointsNode = document.querySelector("#points-marker p");
 const audio = document.querySelector("#soundtrack");
 audio.volume = 0.3;
 audio.playbackRate = 1;
+deliveryAreaNode = document.querySelector("#delivery-area");
 
 // botones
 const startButtonNode = document.querySelector("#start-button");
@@ -29,7 +30,6 @@ let chefObj = null;
 let fishOrder = new Food("fish", 10, "./images/fish.png");
 let chickenOrder = new Food("chicken", 5, "./images/chicken.png");
 let milkOrder = new Food("milk", -5, "./images/milk.png");
-let saladOrder = new Food("salad", -5, "./images/salad.png");
 
 //ingredients
 let fishObj = null;
@@ -42,7 +42,7 @@ let saladObj = null;
 let clientsArr = [];
 let ingredientsArr = [];
 let hand = null; 
-let menuArr = [fishOrder, chickenOrder, milkOrder, saladOrder]; 
+let menuArr = [fishOrder, chickenOrder, milkOrder,]; 
 let ordersArr =[];
 let ordersFrecuency = 800;
 let clientsFrecuency = 2000;
@@ -85,13 +85,6 @@ function formatTime() {
   timeNode.innerText = `${minutes}:${seconds}`;
 }
 
-function muteSoundtrack() {
-  if (audio.muted === false) {
-    audio.muted = true;
-  } else {
-    audio.muted = false;
-  }
-}
 
 function updatePoints() {
   //Update points marker to match variable score
@@ -124,9 +117,9 @@ function startGame() {
     newOrder();
   }, ordersFrecuency);
 
-  clientsInterval = setInterval(() => {
+  /*clientsInterval = setInterval(() => {
     newClient();
-  }, clientsFrecuency);
+  }, clientsFrecuency);*/
 
   //Music on
   audio.play();
@@ -142,20 +135,23 @@ function gameLoop() {
   musicSpeed();
 }
 
+
+//Game funcionalities 
+
 function placeIngredients() {
-//cleaning game-box of ingredients and reseting ingredients array
+  //cleaning game-box of ingredients and reseting ingredients array
   ingredientsArr.forEach((eachIngredient) => {
   gameBoxNode.removeChild(eachIngredient.node);
   });
   ingredientsArr = [];
-//placing new ingredients of every type
+  //placing new ingredients of every type
   fishObj = new Ingredient("fish", 10,"./images/fish.png");
   console.log(fishObj);
 
   chickenObj = new Ingredient("chicken", 5, "./images/chicken.png");
   console.log(chickenObj);
 
-  milkObj = new Ingredient("milk", -5, "./images/milk.png");
+  milkObj = new Ingredient("milk", 3, "./images/milk.png");
   console.log(milkObj);
 
   saladObj = new Ingredient("salad", -5, "./images/salad.png");
@@ -200,52 +196,27 @@ function takeFood() {
 
 
 
-
   function deliverOrder() {
-
-    if (chefObj.x === 4 ) {
-      const deliveredFood = hand;
-      console.log("array mano", hand);
-      if (deliveredFood.name === ordersArr[0].name) {
-        score += deliveredFood.points;
-        orderDelivered();
-      } else {
-        score -= 20;
-      }
-      ordersArr.shift();
-      newOrder();
+      //check if chef is in delivery area
+    if (
+      chefObj.x > deliveryAreaNode.offsetLeft - chefObj.w &&
+      chefObj.x < deliveryAreaNode.offsetLeft + deliveryAreaNode.offsetWidth &&
+      chefObj.y > deliveryAreaNode.offsetTop - chefObj.h &&
+      chefObj.y < deliveryAreaNode.offsetTop + deliveryAreaNode.offsetHeight
+     ) {
+          const deliveredFood = hand;
+          console.log("array mano", hand);
+          if (deliveredFood && deliveredFood.name === ordersArr[0].name) {
+            score += deliveredFood.points; //el plato entregado es el que nos pedian, ganamos puntos
+          } else {
+            score -= 20; //hemos fallado, perdemos puntos
+          }
+          ordersArr.shift(); //el primer pedido pendiente desaparece
+          ordersBoxNode.removeChild(ordersBoxNode.children[0]);
     }
     handBoxNode.innerHTML = "";
     hand = null;
   }
-
-
-//Game funcionalities 
-
-/*function takeFood(chefX, chefY) {
-  if (chefX === 300 && chefY === 50 && handArr.length < 1) {
-    handArr.push(fishObj);
-    console.log("array mano", handArr);
-  }
-
-  
-}
-
-function deliverOrder(chefX, chefY) {
-  if (chefX === 900 && chefY === 500) {
-    const deliveredFood = handArr.pop();
-    console.log("array mano", handArr);
-    if (deliveredFood.name === ordersArr[0].name) {
-      score += deliveredFood.points;
-      orderDelivered();
-    } else {
-      score -= 20;
-    }
-  }
-}
- 
-*/
-
 
 
 
@@ -264,7 +235,6 @@ function newOrder() {
 }
 
 
-
 function newClient() {
   if (clientsArr.length < 1) {
     let newClientObj = new Client();
@@ -276,8 +246,6 @@ function newClient() {
 }
 
   
-//
-
 
 
 // ENDS GAME
@@ -331,7 +299,6 @@ muteButtonNode.addEventListener("click", muteSoundtrack);
 
 // event listener para el teclado
 document.addEventListener("keydown", (event) => {
-  console.log("tecla funcionando")
   const key = event.key;
 
   event.preventDefault();
@@ -360,6 +327,14 @@ document.addEventListener("keydown", (event) => {
 
 
 //*BONUS
+
+function muteSoundtrack() {
+  if (audio.muted === false) {
+    audio.muted = true;
+  } else {
+    audio.muted = false;
+  }
+}
 
 function musicSpeed() {
   if (remainingTime < 30) {
