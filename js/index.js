@@ -4,7 +4,8 @@
 const startScreenNode = document.getElementById("start-screen");
 const gameScreenNode = document.getElementById("game-screen");
 const gameoverScreenNode = document.getElementById("gameover-screen");
-
+const howToPlayCardNode = document.getElementById("how-to-play");
+const startCardNode = document.getElementById("start-card");
 // game box
 const gameBoxNode = document.querySelector("#game-box");
 const ordersBoxNode = document.querySelector("#orders-box");
@@ -18,6 +19,7 @@ deliveryAreaNode = document.querySelector("#delivery-area");
 
 // botones
 const startButtonNode = document.querySelector("#start-button");
+const startButtonContinueNode = document.querySelector("#start-button2");
 const resetButtonNode = document.querySelector("#reset-button");
 const muteButtonNode = document.querySelector("#mute-button");
 
@@ -61,6 +63,7 @@ let ordersInterval = null;
 let clientsInterval = null;
 
 
+
 //* FUNCIONES GLOBALES DEL JUEGO
 
 //NEW GAME
@@ -92,6 +95,11 @@ function updatePoints() {
 }
 
 
+function howToPlay() {
+  startCardNode.style.display = "none";
+ howToPlayCardNode.style.display = "flex";
+}
+
 function startGame() {
   //Timer on
   timeNode.innerText = duration;
@@ -99,6 +107,7 @@ function startGame() {
   startTime();
 
   //Screen switch
+  howToPlayCardNode.style.display = "none";
   startScreenNode.style.display = "none";
   gameScreenNode.style.display = "flex";
 
@@ -134,7 +143,6 @@ function gameLoop() {
   updatePoints();
   musicSpeed();
 }
-
 
 //Game funcionalities 
 
@@ -276,7 +284,7 @@ function resetGame() {
   startScreenNode.style.display = "flex";
 
   //cleaning game-box
-  gameBoxNode.innerHTML = "";
+  gameBoxNode.innerHTML = `<div id="delivery-area"></div>`;
   ordersBoxNode.innerHTML = "";
   //play elements reset
   chefObj = null;
@@ -293,7 +301,8 @@ function resetGame() {
 
 //* EVENT LISTENERS
 
-startButtonNode.addEventListener("click", startGame);
+startButtonNode.addEventListener("click", howToPlay);
+startButtonContinueNode.addEventListener("click", startGame);
 resetButtonNode.addEventListener("click", resetGame);
 muteButtonNode.addEventListener("click", muteSoundtrack);
 

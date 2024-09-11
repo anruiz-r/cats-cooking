@@ -2,11 +2,12 @@
  #F6EACB yellow
  #F1D3CE peach 
  #EECAD5 pink 
+ #9ad9e9 light blue
   #3c6ca8 blue violet*/
 
 body {
   margin: 0;
-  background-color: #EECAD5;
+  background-color:#EECAD5;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -20,9 +21,29 @@ body {
   align-items: center;
   margin: 50px;
 }
+.background {
+  width:100%;
+  height: 1000px;
+  margin: 0;
+  background-image: url(../images/bg.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
-#start-screen {
+.card {
   background-color: #eecad5;
+  width: 900px;
+  border-radius: 50px;
+  padding: 50px;
+}
+
+#how-to-play {
+  height: 700px;
+  display: none;
+}
+
+#how-to-play img {
+  width: 875px;
 }
 
 h1 {
@@ -32,14 +53,10 @@ h1 {
   font-family: "lobster";
 }
 
-#game-screen {
-  width: 1000px;
-  height: 900px;
-}
-
 #game-screen,
 #gameover-screen {
-  background-color: #eecad5;
+  background-color:#EECAD5;
+  
   display: none; /* lo dejaremos en none*/
 }
 
@@ -59,10 +76,13 @@ h1 {
 }
 #delivery-area {
   background-color: #F1D3CE;
+  background-image: url(../images/delivery-area.png);
+  background-repeat: no-repeat;
+  background-size: contain;
   border: solid 2px #3c6ca8 ;
   text-align: center;
   height: 150px;
-  width: 30px;
+  width: 50px;
   position: absolute;
   top: 200px;
   right: 2px;
@@ -87,7 +107,7 @@ h1 {
 #orders-box {
   background-color: #d1e9f6;
   width: 700px;
-  height: 100px;
+  height: 80px;
   padding: 20px 50px;
   border-radius: 10px;
   border: 1px groove rgba(50,51,79,0.54);
@@ -136,11 +156,11 @@ h1 {
 
 #hand-box {
   background-color: #d1e9f6;
-  width: 100px;
-  height:100px;
+  width:80px;
+  height:80px;
   border-radius: 10px;
   box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.46);
-  padding: 30px;
+  padding: 20px;
   display: flex;
   justify-content: center;
   align-items: center;

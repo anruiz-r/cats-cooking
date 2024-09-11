@@ -13,12 +13,18 @@
 <body>
     <!-- START SCREEN ✔-->
 
-<div id="start-screen" class="container">
-   <h1>Cats Cooking</h1>
-    <img src="./images/cat-chef.png" alt="cat chef ">
-    <button id="start-button" class="button">START</button>
+<div id="start-screen" class="background container" >
+    <div id="start-card" class="container card">
+        <h1>Cats Cooking</h1>
+        <img src="./images/cat-chef.png" alt="cat chef ">
+        <button id="start-button" class="button">START</button>
+    </div>
+    <div id="how-to-play"  class="container card">
+        <h1>Cats Cooking</h1>
+        <img src="./images/how-to-play.png" alt="">
+        <button id="start-button2" class="button">START</button>
+    </div>
 </div>
-
 
  <!-- GAME SCREEN -->
 
@@ -30,8 +36,7 @@
     <!--points, timer, handArr, ordersArr-->
     <div id="orders-box"></div>
     <div id="game-box">
-        <div id="delivery-area">><br>> <br>></div>
-       
+        <div id="delivery-area"></div>
     </div>
     <div class="stats">
         <div id="points-marker">  
@@ -50,10 +55,13 @@
 
 
  <!-- GAMEOVER SCREEN ✔-->
-<div id="gameover-screen" class="container">
-    <h1>GAME OVER</h1>
-    <img src="./images/start-img-chef.png" alt="sad cat chef ">
-    <button id="reset-button" class="button">RESTART</button>
+
+ <div id="gameover-screen" class="background container">
+    <div  class="container card">
+        <h1>GAME OVER</h1>
+        <img src="./images/start-img-chef.png" alt="sad cat chef ">
+        <button id="reset-button" class="button">RESTART</button>
+    </div>
 </div>
 
 
