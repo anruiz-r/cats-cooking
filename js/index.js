@@ -282,6 +282,7 @@ function resetGame() {
  //screens switch
   gameoverScreenNode.style.display = "none";
   startScreenNode.style.display = "flex";
+  startCardNode.style.display = "flex";
 
   //cleaning game-box
   gameBoxNode.innerHTML = `<div id="delivery-area"></div>`;
