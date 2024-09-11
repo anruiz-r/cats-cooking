@@ -39,11 +39,13 @@ let saladObj = null;
 
 
 //objects functionality
+let clientsArr = [];
 let ingredientsArr = [];
 let hand = null; 
 let menuArr = [fishOrder, chickenOrder, milkOrder, saladOrder]; 
 let ordersArr =[];
 let ordersFrecuency = 800;
+let clientsFrecuency = 2000;
 
 
 
@@ -56,6 +58,7 @@ let timer = null;
 //intervals
 let playInterval = null;
 let ordersInterval = null;
+let clientsInterval = null;
 
 
 //* FUNCIONES GLOBALES DEL JUEGO
@@ -121,6 +124,10 @@ function startGame() {
     newOrder();
   }, ordersFrecuency);
 
+  clientsInterval = setInterval(() => {
+    newClient();
+  }, clientsFrecuency);
+
   //Music on
   audio.play();
   audio.loop = true;
@@ -162,12 +169,13 @@ function placeIngredients() {
 
 function takeFood() {
   
-  ingredientsArr.forEach((eachIngredient) => {
+  ingredientsArr.forEach((eachIngredient, index) => {
     if (
       chefObj.x < eachIngredient.x + eachIngredient.w &&
       chefObj.x + chefObj.w > eachIngredient.x &&
       chefObj.y < eachIngredient.y + eachIngredient.h &&
-      chefObj.y + chefObj.h > eachIngredient.y
+      chefObj.y + chefObj.h > eachIngredient.y &&
+      hand === null
     ) {
       console.log("ingredientsArr antes de coger algo", ingredientsArr)
         handBoxNode.innerHTML = "";
@@ -178,9 +186,12 @@ function takeFood() {
         handNode.style.height = `${hand.h}px`;
         handBoxNode.appendChild(handNode);
 
-        ingredientsArr.splice((indexOf.eachIngredient),1);
+        ingredientsArr.splice(index,1);
         gameBoxNode.removeChild(eachIngredient.node);
-        placeIngredients();
+
+        let newIngredient = new Ingredient(eachIngredient.name, eachIngredient.points, eachIngredient.img);
+        ingredientsArr.push(newIngredient);
+        
         console.log("ingredientsArr despues de coger algo", ingredientsArr)
       console.log("entra en funcion coger");
     }
@@ -205,7 +216,7 @@ function takeFood() {
       newOrder();
     }
     handBoxNode.innerHTML = "";
-    handArr = [];
+    hand = null;
   }
 
 
@@ -252,6 +263,17 @@ function newOrder() {
   }
 }
 
+
+
+function newClient() {
+  if (clientsArr.length < 1) {
+    let newClientObj = new Client();
+    clientsArr.push(newClientObj);
+  } else if (clientsArr.length >= 1) {
+    gameBoxNode.removeChild(clientsArr[0].node);
+    clientsArr.shift();
+  }
+}
 
   
 //
@@ -345,9 +367,9 @@ function musicSpeed() {
   } else if (remainingTime < 20) {
     audio.playbackRate = 1.5;
   } else if (remainingTime < 10) {
-    audio.playbackRate = 2.3;
+    audio.playbackRate = 2;
   } else if (remainingTime < 5) {
-    audio.playbackRate = 2.8;
+    audio.playbackRate = 3;
   }
 }
 

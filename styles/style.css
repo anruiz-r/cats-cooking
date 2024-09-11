@@ -57,6 +57,16 @@ h1 {
   position: relative;
   overflow: hidden;
 }
+#delivery-area {
+  background-color: #F1D3CE;
+  border: solid 2px #3c6ca8 ;
+  text-align: center;
+  height: 150px;
+  width: 30px;
+  position: absolute;
+  top: 200px;
+  right: 2px;
+}
 
 .button {
   background-color: #c75b7a;

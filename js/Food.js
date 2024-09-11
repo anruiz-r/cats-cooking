@@ -32,3 +32,27 @@ class Ingredient extends Food {
   }
 }
 
+
+class Client {
+  constructor() {
+
+    this.x = Math.floor(Math.random() * (800- 100))+1;
+    this.y = Math.floor(Math.random() * (600- 100))+1;
+    this.h = 150;
+
+
+    this.node = document.createElement("img");
+    this.node.src = `./images/cat-client.png`;
+
+
+    this.node.style.margin = `${10}px`;
+    this.node.style.width = `${this.w}px`;
+    this.node.style.height = `${this.h}px`;
+
+    this.node.style.position = "absolute";
+    this.node.style.left = `${this.x}px`;
+    this.node.style.top = `${this.y}px`;
+
+    gameBoxNode.append(this.node);
+  }
+}
