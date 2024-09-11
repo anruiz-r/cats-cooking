@@ -21,10 +21,10 @@ class Food {
 }
 
 class Ingredient extends Food {
-  constructor(name, points, img, x, y) {
+  constructor(name, points, img) {
     super(name, points, img);
-    this.x = x;
-    this.y = y;
+    this.x = Math.floor(Math.random() * (800- 100))+1;
+    this.y = Math.floor(Math.random() * (600- 100))+1;
 
     this.node.style.left = `${this.x}px`;
     this.node.style.top = `${this.y}px`;

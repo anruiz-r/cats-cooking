@@ -12,6 +12,8 @@ const handBoxNode = document.querySelector("#hand-box");
 const timeNode = document.getElementById("time");
 const pointsNode = document.querySelector("#points-marker p");
 const audio = document.querySelector("#soundtrack");
+audio.volume = 0.3;
+audio.playbackRate = 1;
 
 // botones
 const startButtonNode = document.querySelector("#start-button");
@@ -91,7 +93,7 @@ function updatePoints() {
   pointsNode.innerText = score;
 }
 
-function randomFoodPositionX() {
+/*function randomFoodPositionX() {
   let foodWidth = Math.floor(Math.random() * 800);
   return foodWidth;
   
@@ -100,7 +102,7 @@ function randomFoodPositionX() {
 function randomFoodPositionY() {
   let foodHeight = Math.floor(Math.random() * 600);
   return foodHeight;
-}
+}*/
 
 function startGame() {
   //Timer on
@@ -116,18 +118,7 @@ function startGame() {
   chefObj = new Chef();
   console.log(chefObj);
 
-  
-  fishObj = new Ingredient("fish", 10,"./images/fish.png", randomFoodPositionX, randomFoodPositionY);
-  console.log(fishObj);
-
-  chickenObj = new Ingredient("chicken", 5, "./images/chicken.png", randomFoodPositionX, randomFoodPositionY);
-  console.log(chickenObj);
-
-  milkObj = new Ingredient("milk", -5, "./images/milk.png", randomFoodPositionX, randomFoodPositionY);
-  console.log(milkObj);
-
-  saladObj = new Ingredient("salad", -5, "./images/salad.png", randomFoodPositionX, randomFoodPositionY);
-  console.log(saladObj);
+  placeIngredients();
 
   //INTERVALS
   playInterval = setInterval(() => {
@@ -147,11 +138,24 @@ function startGame() {
 
 function gameLoop() {
   //Checking 60 times per second
-
-  //deliverOrder(chefObj.x, chefObj.y);
- 
+ chefObj.moveLimits();
   updatePoints();
+  musicSpeed();
 }
+
+function placeIngredients() {
+  fishObj = new Ingredient("fish", 10,"./images/fish.png");
+  console.log(fishObj);
+
+  chickenObj = new Ingredient("chicken", 5, "./images/chicken.png");
+  console.log(chickenObj);
+
+  milkObj = new Ingredient("milk", -5, "./images/milk.png");
+  console.log(milkObj);
+
+  saladObj = new Ingredient("salad", -5, "./images/salad.png");
+  console.log(saladObj);
+  }
 
 function takeFood() {
 
@@ -163,10 +167,28 @@ function takeFood() {
     handNode.style.width = `${handArr.w}px`;
     handNode.style.height = `${handArr.h}px`;
     handBoxNode.appendChild(handNode);
+
+    placeIngredients();
     console.log("entra en funcion coger");
   }
 
+  function deliverOrder() {
 
+    if (chefObj.x === 4 ) {
+      const deliveredFood = handArr.pop();
+      console.log("array mano", handArr);
+      if (deliveredFood.name === ordersArr[0].name) {
+        score += deliveredFood.points;
+        orderDelivered();
+      } else {
+        score -= 20;
+      }
+      ordersArr.shift();
+      newOrder();
+    }
+    handBoxNode.innerHTML = "";
+    handArr = [];
+  }
 
 
 //Game funcionalities 
@@ -192,10 +214,7 @@ function deliverOrder(chefX, chefY) {
     }
   }
 }
-function orderDelivered() {
-  ordersArr.shift();
-  newOrder();
-}  
+ 
 */
 
 
@@ -292,13 +311,29 @@ document.addEventListener("keydown", (event) => {
       case "ArrowDown":
         chefObj.movesDown();
         break;
-      case "SpaceBar":
-        takeFood();
+      case " ":
+       deliverOrder();
         console.log("espacio");
         break;
     }
   }
 );
+
+
+//*BONUS
+
+function musicSpeed() {
+  if (remainingTime < 30) {
+    audio.playbackRate = 1.3;
+  } else if (remainingTime < 20) {
+    audio.playbackRate = 1.5;
+  } else if (remainingTime < 10) {
+    audio.playbackRate = 2;
+  } else if (remainingTime < 5) {
+    audio.playbackRate = 2.5;
+  }
+}
+
 
 //* PLANNING *//
 
@@ -336,3 +371,5 @@ document.addEventListener("keydown", (event) => {
 //Cocinado
 //Cortado
 //Ranking
+//Acelerar musica cuando queda poco tiempo
+

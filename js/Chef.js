@@ -42,29 +42,23 @@ class Chef {
     console.log("entra en move");
   }
 
-  move() {
-    //update position of player
-    this.x += this.directionX;
-    this.y += this.directionY;
-
-    /*// Limit player to stay inside the game-box
-    if (this.x < 50) {
-      this.x = 50;
+  moveLimits() {
+    
+    if (this.x < 10) {
+      this.x = 10;
     }
 
-    if (this.y < 50) {
-      this.y = 50;
+    if (this.x > gameBoxNode.offsetWidth-this.w) {
+      this.x = gameBoxNode.offsetWidth-this.w;
     }
 
-    if (this.x > (gameBoxNode.offsetWidth - this.w - 50)) {
-      this.x = (gameBoxNode.offsetWidth - this.w - 50);
+    if (this.y < 10) {
+      this.y = 10;
     }
 
-    if (this.y > gameBoxNode.offsetHeight - this.h - 50) {
-      this.y = gameBoxNode.offsetHeight - this.h - 50;
-    }*/
-    // medir zona game-box menos mostrador y cambiar 30 por esas medidas
-
+    if (this.y > gameBoxNode.offsetHeight-this.h) {
+      this.y = gameBoxNode.offsetHeight-this.h;
+    }
     this.node.style.left = `${this.x}px`;
     this.node.style.top = `${this.y}px`;
   }
