@@ -9,6 +9,7 @@ const howToPlayCardNode = document.getElementById("how-to-play");
 const gameBoxNode = document.querySelector("#game-box");
 const ordersBoxNode = document.querySelector("#orders-box");
 const handBoxNode = document.querySelector("#hand-box");
+let deliveryAreaNode = document.querySelector("#delivery-area");
 const foodHandBoxNode = document.querySelector("#hand-box img");
 const timeNode = document.getElementById("time");
 const pointsNode = document.querySelector("#points-marker p");
@@ -21,7 +22,10 @@ const scoreDownSound = new Audio("./audio/scoreDownMeow.mp3");
 scoreUp.volume = 0.4;
 const takeSound = new Audio("./audio/takeSound.mp3");
 scoreUp.volume = 0.4;
-deliveryAreaNode = document.querySelector("#delivery-area");
+//game over box 
+const gameoverImg = document.querySelector ("#gameover-screen img");
+const gameoverH1 = document.querySelector ("#gameover-screen h1");
+const finalScoreNode= document.querySelector ("#gameover-screen p");
 
 // botones
 const startButtonNode = document.querySelector("#start-button");
@@ -81,6 +85,7 @@ function startTime() {
     formatTime();
     if (remainingTime < 0) {
       gameover();
+      clearInterval(timer);
     }
   }, 1000);
 }
@@ -119,7 +124,6 @@ function startGame() {
 
   //character and food objects ready
   chefObj = new Chef();
-  console.log(chefObj);
 
   placeIngredients();
 
@@ -132,11 +136,7 @@ function startGame() {
     newOrder();
   }, ordersFrecuency);
 
-  /*clientsInterval = setInterval(() => {
-    newClient();
-  }, clientsFrecuency);*/
-
-  //Music on
+    //Music on
   audio.play();
   audio.loop = true;
 }
@@ -159,13 +159,13 @@ function placeIngredients() {
   });
   ingredientsArr = [];
   //placing new ingredients of every type
-  fishObj = new Ingredient("fish", 10,"./images/fish.png");
+  fishObj = new Ingredient("fish", 20,"./images/fish.png");
   
-  chickenObj = new Ingredient("chicken", 5, "./images/chicken.png");
+  chickenObj = new Ingredient("chicken", 15, "./images/chicken.png");
 
-  milkObj = new Ingredient("milk", 3, "./images/milk.png");
+  milkObj = new Ingredient("milk", 5, "./images/milk.png");
   
-  saladObj = new Ingredient("salad", -5, "./images/salad.png");
+  saladObj = new Ingredient("salad", -20, "./images/salad.png");
  
   ingredientsArr.push(fishObj, chickenObj, milkObj, saladObj);
 
@@ -204,6 +204,7 @@ function takeFood() {
 }
 
   function deliverOrder() {
+    console.log("entra en deliver")
       //check if chef is in delivery area
     if (
       chefObj.x > deliveryAreaNode.offsetLeft - chefObj.w &&
@@ -211,13 +212,19 @@ function takeFood() {
       chefObj.y > deliveryAreaNode.offsetTop - chefObj.h &&
       chefObj.y < deliveryAreaNode.offsetTop + deliveryAreaNode.offsetHeight
      ) {
+      console.log("entra condicion deliver")
           const deliveredFood = hand;
+          console.log(deliveredFood)
+          console.log(hand)
           if (deliveredFood && deliveredFood.name === ordersArr[0].name) {
             score += deliveredFood.points; //right order delivered, get points 
             scoreUp();
+            console.log("scoreup")
           } else {
-            score -= 20; //we failed, lose points
+            score -= 5; //we failed, lose points
             scoreDown();
+            console.log("scoredown")
+           
           }
           ordersArr.shift(); //el primer pedido pendiente desaparece
           ordersBoxNode.removeChild(ordersBoxNode.children[0]);
@@ -242,9 +249,6 @@ function newOrder() {
   }
 }
 
-const gameoverImg = document.querySelector ("#gameover-screen img");
-const gameoverH1 = document.querySelector ("#gameover-screen h1");
-const finalScoreNode= document.querySelector ("#gameover-screen p");
 
 function resultScreen() {
  finalScoreNode.innerText =`SCORE: ${score} points`;
@@ -276,8 +280,9 @@ function gameover() {
   remainingTime = duration;
   formatTime();
 
-  //music stops
+  //music stops and reset
   audio.pause();
+  audio.currentTime = 0;
   audio.playbackRate = 1;
 }
 
@@ -289,7 +294,9 @@ function resetGame() {
 
   //cleaning game-box
   gameBoxNode.innerHTML = `<div id="delivery-area"></div>`;
+  deliveryAreaNode = document.querySelector("#delivery-area");
   ordersBoxNode.innerHTML = "";
+  handBoxNode.innerHTML = "";
   //play elements reset
   chefObj = null;
   fishObj = null;
@@ -300,6 +307,11 @@ function resetGame() {
   ordersArr = [];
   ingredientsArr = [];
   hand = null;
+
+  audio.muted = false;
+  takeSound.muted = false;
+  scoreDownSound.muted = false;
+  scoreUpSound.muted = false;
 }
 
 
@@ -343,6 +355,7 @@ document.addEventListener("keydown", (event) => {
 
 
 function muteSoundtrack() {
+  
   if (audio.muted === false) {
     audio.muted = true;
     scoreUpSound.muted = true;
@@ -350,6 +363,9 @@ function muteSoundtrack() {
     takeSound.muted = true;
   } else {
     audio.muted = false;
+    scoreUpSound.muted = false;
+    scoreDownSound.muted = false
+    takeSound.muted = false;
   }
 }
 
@@ -381,6 +397,7 @@ function takeFoodAnimation() {
 }
 
 function scoreUp() {
+  console.log("score+")
   scoreUpSound.play(); //sound to show you earned points
 
   pointsNode.style.transitionProperty = "fontSize";
@@ -394,6 +411,7 @@ function scoreUp() {
 }
 
 function scoreDown() {
+  console.log("score-")
   scoreDownSound.play(); //sad cat because his food is not good
   //Makes point bigger and red for 2 seconds
   pointsNode.style.transitionProperty = "fontSize, color";
@@ -409,7 +427,7 @@ function scoreDown() {
 
 
 
-function newClient() {
+/*function newClient() {
   if (clientsArr.length < 1) {
     let newClientObj = new Client();
     clientsArr.push(newClientObj);
@@ -418,42 +436,7 @@ function newClient() {
     clientsArr.shift();
   }
 }
-
-//* PLANNING *//
-
-//* START:
-
-//* PARTIDA:
-//clase personaje ✔
-//Personaje (x, y, w, h) ✔
-//Personaje tiene que poder coger cosas
-//Personaje tiene que poder soltar cosas
-//Inventario de cosas en la mano ✔
-//clase alimentos x4: ✔
-//clase pescado ✔
-//clase pollo ✔
-//clase leche ✔
-//clase lechuga ✔
-//propiedades alimentos ✔
-// Cajas de ingredientes
-// Pedidos (aparecen cada x segundos segun nivel)
-//*Entrega:
-//Pedidos deberian aparecer y desaparecer al ser entregados
-//lechuga quita puntos
-//
-//Puntos
-//Timer ✔
-//funcion nuevos pedidos
-//funcion detectar si se entrego un pedido(es igual? sumar puntos)
-//funcion elimnar pedido entregado
-
-
-//* GAME OVER:  ✔
-
-//* BONUS
-//Quitar puntos por pedidos incorrectos
-//Cocinado
-//Cortado
-//Ranking
-//Acelerar musica cuando queda poco tiempo
+  clientsInterval = setInterval(() => {
+    newClient();
+  }, clientsFrecuency);*/
 

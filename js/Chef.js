@@ -21,25 +21,21 @@ class Chef {
   movesRight() {
     this.x += 50;
     this.node.style.left = `${this.x}px`;
-    console.log("entra en move");
   }
 
   movesLeft() {
     this.x -= 50;
     this.node.style.left = `${this.x}px`;
-    console.log("entra en move");
   }
 
   movesDown() {
     this.y += 50;
     this.node.style.top = `${this.y}px`;
-    console.log("entra en move");
   }
 
   movesUp() {
     this.y -= 50;
     this.node.style.top = `${this.y}px`;
-    console.log("entra en move");
   }
 
   moveLimits() {
@@ -63,3 +59,4 @@ class Chef {
     this.node.style.top = `${this.y}px`;
   }
 }
+
