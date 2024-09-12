@@ -20,6 +20,7 @@ scoreUp.volume = 0.4;
 const scoreDownSound = new Audio("./audio/scoreDownMeow.mp3");
 scoreUp.volume = 0.4;
 const takeSound = new Audio("./audio/takeSound.mp3");
+scoreUp.volume = 0.4;
 deliveryAreaNode = document.querySelector("#delivery-area");
 
 // botones
@@ -159,20 +160,15 @@ function placeIngredients() {
   ingredientsArr = [];
   //placing new ingredients of every type
   fishObj = new Ingredient("fish", 10,"./images/fish.png");
-  console.log(fishObj);
-
+  
   chickenObj = new Ingredient("chicken", 5, "./images/chicken.png");
-  console.log(chickenObj);
 
   milkObj = new Ingredient("milk", 3, "./images/milk.png");
-  console.log(milkObj);
-
+  
   saladObj = new Ingredient("salad", -5, "./images/salad.png");
-  console.log(saladObj);
-
+ 
   ingredientsArr.push(fishObj, chickenObj, milkObj, saladObj);
 
-  console.log("ingredientes", ingredientsArr);
   }
 
 
@@ -198,9 +194,11 @@ function takeFood() {
 
         ingredientsArr.splice(index,1);
         gameBoxNode.removeChild(eachIngredient.node);
-
-        let newIngredient = new Ingredient(eachIngredient.name, eachIngredient.points, eachIngredient.img);
-        ingredientsArr.push(newIngredient);
+        
+        setTimeout(()=>{
+          let newIngredient = new Ingredient(eachIngredient.name, eachIngredient.points, eachIngredient.img);
+          ingredientsArr.push(newIngredient);
+        }, 1500);
     }
   });
 }
@@ -244,27 +242,31 @@ function newOrder() {
   }
 }
 
+const gameoverImg = document.querySelector ("#gameover-screen img");
+const gameoverH1 = document.querySelector ("#gameover-screen h1");
+const finalScoreNode= document.querySelector ("#gameover-screen p");
 
-function newClient() {
-  if (clientsArr.length < 1) {
-    let newClientObj = new Client();
-    clientsArr.push(newClientObj);
-  } else if (clientsArr.length >= 1) {
-    gameBoxNode.removeChild(clientsArr[0].node);
-    clientsArr.shift();
+function resultScreen() {
+ finalScoreNode.innerText =`SCORE: ${score} points`;
+  if (score >= 100) {
+    gameoverH1.innerText = "Well done!"
+    gameoverImg.src = "./images/wellDoneCat.png";
+  } else {
+    gameoverH1.innerText = "GAME OVER"
+    gameoverImg.src = "./images/start-img-chef.png";
   }
 }
 
-  
+
 
 
 // ENDS GAME
 
 function gameover() {
+  resultScreen();
   //screens switch
   gameScreenNode.style.display = "none";
   gameoverScreenNode.style.display = "flex";
-
   //cleaning intervals
   clearInterval(playInterval);
   clearInterval(ordersInterval);
@@ -330,7 +332,6 @@ document.addEventListener("keydown", (event) => {
         break;
       case " ":
        deliverOrder();
-        console.log("espacio");
         break;
     }
   }
@@ -338,6 +339,8 @@ document.addEventListener("keydown", (event) => {
 
 
 //*BONUS
+
+
 
 function muteSoundtrack() {
   if (audio.muted === false) {
@@ -397,7 +400,6 @@ function scoreDown() {
   pointsNode.style.transitionDuration = "1s";
   pointsNode.style.fontSize = "4.5rem";
   pointsNode.style.color = "#ff5100";
-
   //Back to initial CSS
   setTimeout(() => {
     pointsNode.style.fontSize = "3.5rem";
@@ -405,6 +407,17 @@ function scoreDown() {
   }, 1000);
 }
 
+
+
+function newClient() {
+  if (clientsArr.length < 1) {
+    let newClientObj = new Client();
+    clientsArr.push(newClientObj);
+  } else if (clientsArr.length >= 1) {
+    gameBoxNode.removeChild(clientsArr[0].node);
+    clientsArr.shift();
+  }
+}
 
 //* PLANNING *//
 

@@ -6,7 +6,6 @@ class Food {
 
     this.name = name;
     this.points = points;
-    this.cooked = false;
     this.img = img;
 
     this.node = document.createElement("img");
