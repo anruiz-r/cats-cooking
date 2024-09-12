@@ -5,16 +5,21 @@ const startScreenNode = document.getElementById("start-screen");
 const gameScreenNode = document.getElementById("game-screen");
 const gameoverScreenNode = document.getElementById("gameover-screen");
 const howToPlayCardNode = document.getElementById("how-to-play");
-const startCardNode = document.getElementById("start-card");
 // game box
 const gameBoxNode = document.querySelector("#game-box");
 const ordersBoxNode = document.querySelector("#orders-box");
 const handBoxNode = document.querySelector("#hand-box");
+const foodHandBoxNode = document.querySelector("#hand-box img");
 const timeNode = document.getElementById("time");
 const pointsNode = document.querySelector("#points-marker p");
 const audio = document.querySelector("#soundtrack");
 audio.volume = 0.3;
 audio.playbackRate = 1;
+const scoreUpSound = new Audio("./audio/coin-scoreUp.mp3");
+scoreUp.volume = 0.4;
+const scoreDownSound = new Audio("./audio/scoreDownMeow.mp3");
+scoreUp.volume = 0.4;
+const takeSound = new Audio("./audio/takeSound.mp3");
 deliveryAreaNode = document.querySelector("#delivery-area");
 
 // botones
@@ -96,7 +101,7 @@ function updatePoints() {
 
 
 function howToPlay() {
-  startCardNode.style.display = "none";
+  startScreenNode.style.display = "none";
  howToPlayCardNode.style.display = "flex";
 }
 
@@ -181,7 +186,6 @@ function takeFood() {
       chefObj.y + chefObj.h > eachIngredient.y &&
       hand === null
     ) {
-      console.log("ingredientsArr antes de coger algo", ingredientsArr)
         handBoxNode.innerHTML = "";
         hand = eachIngredient;
         const handNode = document.createElement("img");
@@ -190,19 +194,16 @@ function takeFood() {
         handNode.style.height = `${hand.h}px`;
         handBoxNode.appendChild(handNode);
 
+        takeFoodAnimation();
+
         ingredientsArr.splice(index,1);
         gameBoxNode.removeChild(eachIngredient.node);
 
         let newIngredient = new Ingredient(eachIngredient.name, eachIngredient.points, eachIngredient.img);
         ingredientsArr.push(newIngredient);
-        
-        console.log("ingredientsArr despues de coger algo", ingredientsArr)
-      console.log("entra en funcion coger");
     }
   });
 }
-
-
 
   function deliverOrder() {
       //check if chef is in delivery area
@@ -213,17 +214,18 @@ function takeFood() {
       chefObj.y < deliveryAreaNode.offsetTop + deliveryAreaNode.offsetHeight
      ) {
           const deliveredFood = hand;
-          console.log("array mano", hand);
           if (deliveredFood && deliveredFood.name === ordersArr[0].name) {
-            score += deliveredFood.points; //el plato entregado es el que nos pedian, ganamos puntos
+            score += deliveredFood.points; //right order delivered, get points 
+            scoreUp();
           } else {
-            score -= 20; //hemos fallado, perdemos puntos
+            score -= 20; //we failed, lose points
+            scoreDown();
           }
           ordersArr.shift(); //el primer pedido pendiente desaparece
           ordersBoxNode.removeChild(ordersBoxNode.children[0]);
-    }
-    handBoxNode.innerHTML = "";
-    hand = null;
+        }
+          handBoxNode.innerHTML = "";
+          hand = null;
   }
 
 
@@ -282,7 +284,6 @@ function resetGame() {
  //screens switch
   gameoverScreenNode.style.display = "none";
   startScreenNode.style.display = "flex";
-  startCardNode.style.display = "flex";
 
   //cleaning game-box
   gameBoxNode.innerHTML = `<div id="delivery-area"></div>`;
@@ -341,6 +342,9 @@ document.addEventListener("keydown", (event) => {
 function muteSoundtrack() {
   if (audio.muted === false) {
     audio.muted = true;
+    scoreUpSound.muted = true;
+    scoreDownSound.muted = true;
+    takeSound.muted = true;
   } else {
     audio.muted = false;
   }
@@ -356,6 +360,49 @@ function musicSpeed() {
   } else if (remainingTime < 5) {
     audio.playbackRate = 3;
   }
+}
+
+function takeFoodAnimation() {
+  
+  takeSound.play();
+  handBoxNode.style.transitionProperty = "width, height";
+  handBoxNode.style.transitionDuration = "0.5s";
+  handBoxNode.style.width = "75px";
+  handBoxNode.style.height ="75px";
+
+  //Back to initial CSS
+  setTimeout(() => {
+    handBoxNode.style.width = "70px";
+    handBoxNode.style.height = "70px";
+  }, 1000);
+}
+
+function scoreUp() {
+  scoreUpSound.play(); //sound to show you earned points
+
+  pointsNode.style.transitionProperty = "fontSize";
+  pointsNode.style.transitionDuration = "1s";
+  pointsNode.style.fontSize = "4.5rem";
+
+  //Back to initial CSS
+  setTimeout(() => {
+    pointsNode.style.fontSize = "3.5rem";
+  }, 1000);
+}
+
+function scoreDown() {
+  scoreDownSound.play(); //sad cat because his food is not good
+  //Makes point bigger and red for 2 seconds
+  pointsNode.style.transitionProperty = "fontSize, color";
+  pointsNode.style.transitionDuration = "1s";
+  pointsNode.style.fontSize = "4.5rem";
+  pointsNode.style.color = "#ff5100";
+
+  //Back to initial CSS
+  setTimeout(() => {
+    pointsNode.style.fontSize = "3.5rem";
+    pointsNode.style.color = "orange";
+  }, 1000);
 }
 
 
