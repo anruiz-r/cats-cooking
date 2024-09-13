@@ -1,13 +1,15 @@
-/* #D1E9F6 white 
- #F6EACB yellow
- #F1D3CE peach 
- #EECAD5 pink 
- #9ad9e9 light blue
-  #3c6ca8 blue violet*/
+/*COLOR CODES
+  #D1E9F6 white 
+  #F6EACB yellow
+  #F1D3CE peach 
+  #EECAD5 pink 
+  #9ad9e9 light blue
+  #3c6ca8 blue violet
+  */
 
 body {
   margin: 0;
-  background-color:#EECAD5;
+  background-color: #eecad5;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -21,8 +23,9 @@ body {
   align-items: center;
   margin: 20px;
 }
+
 .background {
-  width:100%;
+  width: 100%;
   height: 1000px;
   margin: 0;
   background-image: url(../images/bg.png);
@@ -36,6 +39,7 @@ body {
   border-radius: 50px;
   padding: 30px;
 }
+
 #start-card {
   padding: 50px;
 }
@@ -55,24 +59,24 @@ h1 {
   margin: 50px 0 0 0;
   font-family: "lobster";
 }
+
 p {
   font-size: 30px;
 }
 
 #game-screen,
 #gameover-screen {
-  background-color:#EECAD5;
-  
-  display: none; /* lo dejaremos en none*/
+  background-color: #eecad5;
+  display: none;
 }
 
 #game-box {
-  background-color: #EECAD5;
+  background-color: #eecad5;
   background-image: url("../images/floor-textures.jpg");
   background-repeat: repeat;
   background-size: contain;
   border: 2px solid #525151;
-  box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.46);
+  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.46);
   width: 800px;
   height: 600px;
   margin: 20px;
@@ -81,11 +85,11 @@ p {
   overflow: hidden;
 }
 #delivery-area {
-  background-color: #F1D3CE;
+  background-color: #f1d3ce;
   background-image: url(../images/delivery-area.png);
   background-repeat: no-repeat;
   background-size: contain;
-  border: solid 2px #3c6ca8 ;
+  border: solid 2px #3c6ca8;
   text-align: center;
   height: 150px;
   width: 50px;
@@ -102,13 +106,13 @@ p {
   margin: 20px;
   border-radius: 5px;
 }
- .stats {
+.stats {
   display: flex;
   flex-wrap: nowrap;
-  justify-content:space-between;
+  justify-content: space-between;
   align-items: center;
   gap: 200px;
- }
+}
 
 #orders-box {
   background-color: #d1e9f6;
@@ -116,8 +120,8 @@ p {
   height: 80px;
   padding: 20px 50px;
   border-radius: 10px;
-  border: 1px groove rgba(50,51,79,0.54);
-  box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.46);
+  border: 1px groove rgba(50, 51, 79, 0.54);
+  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.46);
   margin: 0 50px 0 50px;
   display: flex;
   justify-content: flex-start;
@@ -128,17 +132,16 @@ p {
 #mute-button {
   position: fixed;
   top: 50px;
-  right:50px;
+  right: 50px;
 }
 
- #mute-button img {
+#mute-button img {
   width: 30px;
 }
 
 #points-marker {
   text-align: center;
   color: antiquewhite;
-  /*background-color: orange;*/
   width: 140px;
   height: 140px;
   border-radius: 100px;
@@ -148,7 +151,6 @@ p {
 #points-marker img {
   width: 100%;
   height: 100%;
-  
 }
 #points-marker p {
   color: orange;
@@ -162,10 +164,10 @@ p {
 
 #hand-box {
   background-color: #d1e9f6;
-  width:80px;
-  height:80px;
+  width: 80px;
+  height: 80px;
   border-radius: 10px;
-  box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.46);
+  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.46);
   padding: 20px;
   display: flex;
   justify-content: center;
@@ -176,14 +178,14 @@ p {
   text-align: center;
   color: antiquewhite;
   background-color: darkgray;
-  width:140px;
+  width: 140px;
   height: 140px;
   border-radius: 100px;
   position: relative;
 }
 
 #time-marker p {
-color: whitesmoke;
+  color: whitesmoke;
   font-size: 3rem;
   position: absolute;
   margin: 0;
@@ -198,5 +200,5 @@ color: whitesmoke;
   gap: 500px;
 }
 .decoration-start img {
- height: 200px;
+  height: 200px;
 }

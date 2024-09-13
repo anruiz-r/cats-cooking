@@ -39,24 +39,22 @@ class Chef {
   }
 
   moveLimits() {
-    
     if (this.x < 10) {
       this.x = 10;
     }
 
-    if (this.x > gameBoxNode.offsetWidth-this.w) {
-      this.x = gameBoxNode.offsetWidth-this.w;
+    if (this.x > gameBoxNode.offsetWidth - this.w) {
+      this.x = gameBoxNode.offsetWidth - this.w;
     }
 
     if (this.y < 10) {
       this.y = 10;
     }
 
-    if (this.y > gameBoxNode.offsetHeight-this.h) {
-      this.y = gameBoxNode.offsetHeight-this.h;
+    if (this.y > gameBoxNode.offsetHeight - this.h) {
+      this.y = gameBoxNode.offsetHeight - this.h;
     }
     this.node.style.left = `${this.x}px`;
     this.node.style.top = `${this.y}px`;
   }
 }
-
