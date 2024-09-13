@@ -1,4 +1,4 @@
-# NAME OF YOUR PROYECT
+# CATS COOKING
 
 ## [Play the Game!](https://anruiz-r.github.io/cats-cooking/)
 
@@ -47,11 +47,8 @@ Cats Cooking is a fun and fast-paced game where players control a cat chef tryin
 ### Sketch
 [Link](https://drive.google.com/file/d/1-A4T8_oBLah4KQfJfZMoU7r84oUwEnQ_/view?usp=drive_link)
 
-### Trello
-[Link]()
-
 ### Slides
-[Link](www.your-slides-url-here.com)
+[Link](https://www.canva.com/design/DAGQoUwtaww/TD9BkI1jp3jRSmHR9HaaFQ/view?utm_content=DAGQoUwtaww&utm_campaign=designshare&utm_medium=link&utm_source=editor)
 
 ## Deploy
 [Link](https://anruiz-r.github.io/cats-cooking/)
